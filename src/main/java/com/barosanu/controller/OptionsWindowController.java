@@ -15,7 +15,7 @@ import javafx.util.StringConverter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class OptionsWindowController extends BaseController implements Initializable {
+public class OptionsWindowController extends BaseController implements Initializable {//Initializable daje funkcję initialize, która jest wywoływana od razu gdy kontroler jest przetworzony
 
     public OptionsWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);

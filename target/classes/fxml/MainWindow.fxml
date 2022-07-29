@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="588.0" prefWidth="1081.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">  <!--    fx:controller="com.barosanu.controller.MainWindowController"-->
+<AnchorPane prefHeight="588.0" prefWidth="1081.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">  <!--    fx:controller="com.barosanu.controller.MainWindowController"-->
 
    <children>
       <MenuBar layoutX="1.0" layoutY="2.0" prefHeight="25.0" prefWidth="1080.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -37,7 +37,7 @@
       <TableView fx:id="emailsTableView" layoutX="200.0" layoutY="27.0" prefHeight="169.0" prefWidth="881.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
         <columns>
           <TableColumn prefWidth="157.0" text="Sender" />
-          <TableColumn prefWidth="332.0" text="Sbject" />
+          <TableColumn prefWidth="332.0" text="Subject" />
             <TableColumn prefWidth="179.0" text="Recipient" />
             <TableColumn prefWidth="71.0" text="Size" />
             <TableColumn prefWidth="141.0" text="Date" />
