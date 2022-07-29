@@ -4,12 +4,16 @@ import com.barosanu.controller.services.LoginService;
 import com.barosanu.model.EmailAccount;
 import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class LoginWindowController extends BaseController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginWindowController extends BaseController implements Initializable {
 
 
     @FXML
@@ -31,16 +35,29 @@ public class LoginWindowController extends BaseController {
         if(fieldsAreValid()) {
             EmailAccount emailAccount = new EmailAccount(emailAddressField.getText(), passwordField.getText());
             LoginService loginService = new LoginService(emailAccount, emailManager);
-            EmailLoginResult emailLoginResult= loginService.login();
+            loginService.start();
+            loginService.setOnSucceeded(event-> {
+                EmailLoginResult emailLoginResult= loginService.getValue();
+                switch (emailLoginResult) {
+                    case SUCCESS:
+                        System.out.println("login succesfull!" + emailAccount);
+                        viewFactory.showMainWindow();
+                        Stage stage = (Stage) errorLabel.getScene().getWindow();//w taki sposób dostajemy stage- za pomocą get wykonanym na jakimś polu z tego okna.
+                        viewFactory.closeStage(stage);// zamyka okno logowania
+                        return;
+                    case FAILED_BY_CREDENTIALS:
+                        errorLabel.setText("invalid credentials!");
+                        return;
+                    case FAILED_BY_UNEXPECTED_ERROR:
+                        errorLabel.setText("unexpected error!");
+                        return;
+                    default:
+                        return;
+                }
+            });
 
-            switch (emailLoginResult) {
-                case SUCCESS:
-                    System.out.println("login succesfull!" + emailAccount);
-                    viewFactory.showMainWindow();
-                    Stage stage = (Stage) errorLabel.getScene().getWindow();//w taki sposób dostajemy stage- za pomocą get wykonanym na jakimś polu z tego okna.
-                    viewFactory.closeStage(stage);// zamyka okno logowania
-                    return;
-            }
+
+
         }
             System.out.println("clicked login button");
 
@@ -61,4 +78,10 @@ public class LoginWindowController extends BaseController {
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {// by nie wpisywać za każdym razem initialize jest wywoływana od razu gdy kontroler jest przetworzony.
+        emailAddressField.setText("javafxmail@interia.pl");
+        passwordField.setText("Wy4T3HxjLciXzm");
+
+    }
 }
