@@ -39,16 +39,42 @@ public class FetchFoldersService extends Service<Void> {
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(folder.getName());
             foldersRoot.getChildren().add((emailTreeItem));
             foldersRoot.setExpanded(true);
-            System.out.println(folder.getName()+" type: "+folder.getType()+" holds folder "+folder.HOLDS_FOLDERS);
+//            System.out.println(folder.getName()+" type: "+folder.getType()+" holds folder "+folder.HOLDS_FOLDERS);
+            fetchMessagesOnFolder(folder, emailTreeItem);
 
 
             if (folder.getType()-1 == folder.HOLDS_FOLDERS) {
-                System.out.println("są foldery podrzędne");
+//                System.out.println("są foldery podrzędne");
                 Folder[] subFolders = folder.list();
 
                 handleFolders(subFolders, emailTreeItem);
 
             }
         }
+    }
+
+    private void fetchMessagesOnFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
+        //service pozwala na wykorzystanie wątków
+        Service fetchMessagesService = new Service() {
+            @Override
+            protected Task createTask() {
+                return new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        if(folder.getType() != Folder.HOLDS_FOLDERS){
+                            folder.open(Folder.READ_WRITE);
+                            int folderSize =folder.getMessageCount();
+                            for(int i = folderSize; i>0; i--){
+//                                System.out.println(folder.getMessage(i).getSubject());
+                                emailTreeItem.addEmail(folder.getMessage(i));
+
+                            }
+                        }
+                        return null;
+                    }
+                };
+            }
+        };
+        fetchMessagesService.start();
     }
 }
