@@ -8,6 +8,7 @@ import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 
 public class EmailTreeItem<String> extends TreeItem<String> {
     private String name;
@@ -25,7 +26,7 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         return emailMessages;
     }
 
-    public void addEmail(Message message) throws MessagingException {
+    public void addEmail(Message message) throws MessagingException, UnsupportedEncodingException {
         //sprawdzenie jaka flaga jest przypisana do maila
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
         EmailMessage emailMessage = new EmailMessage(
