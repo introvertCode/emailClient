@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.mail.Message;
+import javax.mail.internet.MimeUtility;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 public class EmailMessage {
@@ -23,9 +25,9 @@ public class EmailMessage {
 //    the value of the property changes, and you can bind properties to each other so when one property value changes,
 //    so does the other. In this JavaFX property tutorial I will explain how JavaFX properties work, and how to use them.
 
-    public EmailMessage(String subject, String sender, String recipient, int size, Date date, boolean isRead, Message message){
+    public EmailMessage(String subject, String sender, String recipient, int size, Date date, boolean isRead, Message message) throws UnsupportedEncodingException {
         this.subject = new SimpleStringProperty(subject);
-        this.sender = new SimpleStringProperty(sender);
+        this.sender = new SimpleStringProperty(MimeUtility.decodeText(sender)); //DEKODOWANIE I DODANIE THROWS USUPPORTED ENCODING EXCEPTION
         this.recipient=new SimpleStringProperty(recipient);
         this.size= new SimpleObjectProperty<SizeInteger>(new SizeInteger(size));
         this.date= new SimpleObjectProperty<Date>(date);
