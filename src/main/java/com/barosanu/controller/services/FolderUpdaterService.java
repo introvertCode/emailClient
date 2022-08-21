@@ -7,7 +7,7 @@ import javax.mail.Folder;
 import java.util.List;
 
 public class FolderUpdaterService extends Service {
-    private List<Folder> folderList;
+    private List<Folder> folderList;//lista tworzona w EmailManager, a uzupełniana w FetchFoldersService i podawana tutaj.
 
     public FolderUpdaterService(List<Folder> folderList) {
         this.folderList = folderList;

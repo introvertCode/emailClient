@@ -5,10 +5,12 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import javax.mail.Folder;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Store; //An abstract class that models a message store and its access protocol, for storing and retrieving messages.
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class FetchFoldersService extends Service<Void> {
@@ -59,16 +61,24 @@ public class FetchFoldersService extends Service<Void> {
         }
     }
 
-    private void addMessageListenerToFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
+    private void addMessageListenerToFolder(Folder folder, EmailTreeItem<String> emailTreeItem) { //dodaje nową wiadomość która przyszła w trakcie działania programu
         folder.addMessageCountListener(new MessageCountListener() { //nie można użyć lambdy bo są 2 metody
             @Override
-            public void messagesAdded(MessageCountEvent messageCountEvent) {
-                System.out.println("message added event!: " + messageCountEvent);
+            public void messagesAdded(MessageCountEvent e) {
+                System.out.println("message added event!: " + e);
+                for(int i =0; i < e.getMessages().length; i++){
+                    try {
+                        Message message = folder.getMessage(folder.getMessageCount());//-1 w oryginale bierze,,,,, ostatnią wiadomość z folderu czyli ta która właśnie przyszła
+                        emailTreeItem.addEmailToTop(message);//metoda addEmail dodaje ją na dół, a najnowsza wiadomość ma byc u góry
+                    } catch (MessagingException | UnsupportedEncodingException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
 
             @Override
-            public void messagesRemoved(MessageCountEvent messageCountEvent) {
-                System.out.println("message removed event!: " + messageCountEvent);
+            public void messagesRemoved(MessageCountEvent e) {
+                System.out.println("message removed event!: " + e);
 
             }
         });
