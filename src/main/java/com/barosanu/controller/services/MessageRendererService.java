@@ -3,6 +3,8 @@ package com.barosanu.controller.services;
 import com.barosanu.model.EmailMessage;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.web.WebEngine;
 
 import javax.mail.BodyPart;
@@ -20,10 +22,22 @@ public class MessageRendererService extends Service {
     public MessageRendererService(WebEngine webEngine) {
         this.webEngine = webEngine;
         this.stringBuffer = new StringBuffer();
+        System.out.println(this.getState()+" przed");
+        this.setOnSucceeded(event -> { //onSucceeded jest wywoływany gdy Task osiągnie taki stan, Task jest niżej w kodzie (jak klikniemy wiadomosc wywołuje się metoda restart, która zaczyna taska)
+            System.out.println(this.getState() +" wykonalo sie");
+            displayMessage();
+        });
+        System.out.println(this.getState()+" po");
+
     }
 
     public void setEmailMessage(EmailMessage emailMessage) {
         this.emailMessage = emailMessage;
+    }
+
+    private void displayMessage(){
+        webEngine.loadContent(stringBuffer.toString());
+
     }
 
     @Override
@@ -31,6 +45,13 @@ public class MessageRendererService extends Service {
         return new Task() {
             @Override
             protected Object call() throws Exception {
+                try {
+                    System.out.println("Wywolany task");
+                    loadMessage();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return null;
             }
         };
