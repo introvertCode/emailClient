@@ -80,7 +80,7 @@ public class MainWindowController extends BaseController implements Initializabl
             EmailMessage emailMessage = emailsTableView.getSelectionModel().getSelectedItem();
             if(emailMessage != null) {
                 messageRendererService.setEmailMessage(emailMessage);
-                messageRendererService.restart(); //restar, bo start można użyć tylko raz,     zaczyna Taska
+                messageRendererService.restart(); //restar, bo start można użyć tylko raz,     zaczyna Taska- ładuje wiadomość
             }
         });
     }
