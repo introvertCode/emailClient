@@ -10,6 +10,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 
+/* klasa do wyświetlania listy wiadomości z danego folderu w oknie. */
+
 public class EmailTreeItem<String> extends TreeItem<String> {
     private String name;
     private ObservableList<EmailMessage> emailMessages;
@@ -26,8 +28,21 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         return emailMessages;
     }
 
-    public void addEmail(Message message) throws MessagingException, UnsupportedEncodingException {
+    public void addEmail(Message message) throws MessagingException, UnsupportedEncodingException {//dodaje kolejne maile do drzewa od dołu
         //sprawdzenie jaka flaga jest przypisana do maila
+
+        EmailMessage emailMessage = fetchMessage(message);//przeniesiony fragment do osobnej metody
+        emailMessages.add(emailMessage);
+//        System.out.println("added to " + name + " " + message.getSubject());
+    }
+
+    public void addEmailToTop(Message message) throws MessagingException, UnsupportedEncodingException {
+        EmailMessage emailMessage = fetchMessage(message);
+        emailMessages.add(0, emailMessage);
+        System.out.println("dodanie maila na górę");
+    }
+
+    private EmailMessage fetchMessage(Message message) throws MessagingException, UnsupportedEncodingException {//dodaje kolejne maile do drzewa
         boolean messageIsRead = message.getFlags().contains(Flags.Flag.SEEN);
         EmailMessage emailMessage = new EmailMessage(
                 message.getSubject(),
@@ -36,13 +51,13 @@ public class EmailTreeItem<String> extends TreeItem<String> {
                 message.getSize(),
                 message.getSentDate(),
                 messageIsRead,
-                message
+            message
         );
-        emailMessages.add(emailMessage);
+//        emailMessages.add(emailMessage);
         if(!messageIsRead){
             incrementMessagesCount();
         }
-        System.out.println("added to " + name + " " + message.getSubject());
+        return emailMessage;
     }
 
     public void incrementMessagesCount(){
@@ -57,4 +72,6 @@ public class EmailTreeItem<String> extends TreeItem<String> {
             this.setValue(name);
         }
     }
+
+
 }

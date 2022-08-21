@@ -5,17 +5,24 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 
 import javax.mail.Folder;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Store; //An abstract class that models a message store and its access protocol, for storing and retrieving messages.
+import javax.mail.event.MessageCountEvent;
+import javax.mail.event.MessageCountListener;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public class FetchFoldersService extends Service<Void> {
 
     private Store store;
     private EmailTreeItem<String> foldersRoot;
+    private List<Folder> folderList;
 
-    public FetchFoldersService(Store store, EmailTreeItem<String> foldersRoot) {
+    public FetchFoldersService(Store store, EmailTreeItem<String> foldersRoot, List<Folder> folderList) {
         this.store = store;
         this.foldersRoot = foldersRoot;
+        this.folderList = folderList;
     }
 
     @Override
@@ -36,12 +43,13 @@ public class FetchFoldersService extends Service<Void> {
 
     private void handleFolders(Folder[] folders, EmailTreeItem<String> foldersRoot) throws MessagingException {
         for(Folder folder: folders){
+            folderList.add(folder);//potrzebne do folderUpdateService
             EmailTreeItem<String> emailTreeItem = new EmailTreeItem<String>(folder.getName());
             foldersRoot.getChildren().add((emailTreeItem));
             foldersRoot.setExpanded(true);
 //            System.out.println(folder.getName()+" type: "+folder.getType()+" holds folder "+folder.HOLDS_FOLDERS);
             fetchMessagesOnFolder(folder, emailTreeItem);
-
+            addMessageListenerToFolder(folder, emailTreeItem);//nasłuchuje czy przychodzą nowe wiadomości
 
             if (folder.getType()-1 == folder.HOLDS_FOLDERS) {
 //                System.out.println("są foldery podrzędne");
@@ -51,6 +59,29 @@ public class FetchFoldersService extends Service<Void> {
 
             }
         }
+    }
+
+    private void addMessageListenerToFolder(Folder folder, EmailTreeItem<String> emailTreeItem) { //dodaje nową wiadomość która przyszła w trakcie działania programu
+        folder.addMessageCountListener(new MessageCountListener() { //nie można użyć lambdy bo są 2 metody
+            @Override
+            public void messagesAdded(MessageCountEvent e) {
+                System.out.println("message added event!: " + e);
+                for(int i =0; i < e.getMessages().length; i++){
+                    try {
+                        Message message = folder.getMessage(folder.getMessageCount());//-1 w oryginale bierze,,,,, ostatnią wiadomość z folderu czyli ta która właśnie przyszła
+                        emailTreeItem.addEmailToTop(message);//metoda addEmail dodaje ją na dół, a najnowsza wiadomość ma byc u góry
+                    } catch (MessagingException | UnsupportedEncodingException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void messagesRemoved(MessageCountEvent e) {
+                System.out.println("message removed event!: " + e);
+
+            }
+        });
     }
 
     private void fetchMessagesOnFolder(Folder folder, EmailTreeItem<String> emailTreeItem) {
