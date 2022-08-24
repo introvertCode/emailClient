@@ -65,6 +65,11 @@ public class EmailTreeItem<String> extends TreeItem<String> {
         updateName();
     }
 
+    public void decrementMessagesCount(){
+        unreadMessageCount--;
+        updateName();
+    }
+
     private void updateName() {
         if(unreadMessageCount>0) {
             this.setValue((String) (name +"(" + unreadMessageCount + ")")); //funkcja setValue() przypisuje wartość do TreeItem, w konstruktorze w funkcji super(name) podane jest, że wartością jest nazwa

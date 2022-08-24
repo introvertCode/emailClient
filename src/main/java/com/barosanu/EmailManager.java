@@ -3,14 +3,29 @@ package com.barosanu;
 import com.barosanu.controller.services.FetchFoldersService;
 import com.barosanu.controller.services.FolderUpdaterService;
 import com.barosanu.model.EmailAccount;
+import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 
+import javax.mail.Flags;
 import javax.mail.Folder;
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmailManager {
+
+
+    private EmailMessage selectedMessage;
+    private EmailTreeItem<String> selectedFolder;
+    private ObservableList<EmailAccount> emailAccounts = FXCollections.observableArrayList();
+
+    public ObservableList<EmailAccount> getEmailAccounts(){
+        return emailAccounts;
+    }
+
 
     private FolderUpdaterService folderUpdaterService;
     //Folder handling
@@ -31,6 +46,7 @@ public class EmailManager {
     }
 
     public void addEmailAccount(EmailAccount emailAccount){
+        emailAccounts.add(emailAccount);
         EmailTreeItem<String> treeItem = new EmailTreeItem<String>(emailAccount.getAddress());
         //treeItem.setExpanded(true); //Sets the expanded state of this TreeItem.  On a TreeItem with children however, the result of toggling this property is that visually the children will either become visible or hidden, based on whether expanded is set to true or false.
 
@@ -39,5 +55,44 @@ public class EmailManager {
 
 
         foldersRoot.getChildren().add(treeItem);
+    }
+
+    public void setSelectedMessage(EmailMessage selectedMessage) {
+        this.selectedMessage = selectedMessage;
+    }
+
+    public void setSelectedFolder(EmailTreeItem<String> selectedFolder) {
+        this.selectedFolder = selectedFolder;
+    }
+
+    public void setRead() {
+        try {
+            selectedMessage.setRead(true);
+            selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, true);
+            selectedFolder.decrementMessagesCount();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setUnRead() {
+        try {
+            selectedMessage.setRead(false);
+            selectedMessage.getMessage().setFlag(Flags.Flag.SEEN, false);
+            selectedFolder.incrementMessagesCount();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSelectedMessage() {
+        try {
+            selectedMessage.getMessage().setFlag(Flags.Flag.DELETED, true);
+            selectedFolder.getEmailMessages().remove(selectedMessage);
+            selectedMessage.getMessage().getFolder().expunge();
+//            selectedFolder.close(true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }
