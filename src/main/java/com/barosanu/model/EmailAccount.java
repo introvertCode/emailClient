@@ -18,7 +18,6 @@ public class EmailAccount {
         return password;
     }
 
-
     public Properties getProperties() {
         return properties;
     }
@@ -48,4 +47,10 @@ public class EmailAccount {
 
 
     }
+
+    @Override
+    public String toString() {//by wyświetlało poprawnie adres w choiceBox przy wysyłaniu wiadomości
+        return address;
+    }
+
 }
