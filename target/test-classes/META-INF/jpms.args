@@ -1,0 +1,4 @@
+--patch-module
+emailClient2=_
+--add-reads
+emailClient2=ALL-UNNAMED
