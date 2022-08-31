@@ -98,6 +98,13 @@
       <version>20-ea+1</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.jetbrains.compose.desktop/desktop -->
+    <dependency>
+      <groupId>org.jetbrains.compose.desktop</groupId>
+      <artifactId>desktop</artifactId>
+      <version>1.2.0-alpha01-dev620</version>
+    </dependency>
+
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
