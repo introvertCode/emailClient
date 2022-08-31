@@ -5,9 +5,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.mail.Message;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class EmailMessage {
 
@@ -18,6 +21,8 @@ public class EmailMessage {
     private SimpleObjectProperty<Date> date;
     private boolean isRead;
     private Message message;
+    private List<MimeBodyPart> attachmentList = new ArrayList<MimeBodyPart>();
+    boolean hasAttachments = false;
 
 //    A JavaFX Property is a special kind member variable of JavaFX controls. JavaFX properties are typically used to
 //    contain control properties such as X and Y position, width and height, text, children and other central properties
@@ -33,6 +38,10 @@ public class EmailMessage {
         this.date= new SimpleObjectProperty<Date>(date);
         this.isRead = isRead;
         this.message = message;
+    }
+
+    public boolean hasAttachments(){
+        return hasAttachments;
     }
 
     public String getSubject(){
@@ -66,5 +75,23 @@ public class EmailMessage {
         return this.message;
     }
 
+    public List<MimeBodyPart> getAttachmentList(){
+        return attachmentList;
+    }
 
+
+    public void addAttachment(MimeBodyPart mbp) {
+        hasAttachments = true;
+        attachmentList.add(mbp);
+        try {
+            System.out.println("Added attach: " + mbp.getFileName());
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void clearAttachmentList() {
+        attachmentList.clear();
+    }
 }
