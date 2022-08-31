@@ -71,7 +71,13 @@ public class ViewFactory {
     public void showComposeMessageWindow(){
         BaseController controller = new ComposeMessageControler(emailManager, this, "/fxml/ComposeMessageWindow.fxml");
         initializeStage(controller);
-        System.out.println("composed window called");
+//        System.out.println("composed window called");
+
+    }
+    public void showEmailDetailsWindow(){
+        BaseController controller = new EmailDetailsController(emailManager, this, "/fxml/EmailDetailsWindow.fxml");
+        initializeStage(controller);
+//        System.out.println("composed window called");
 
     }
 

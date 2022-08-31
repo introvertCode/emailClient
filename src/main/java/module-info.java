@@ -5,8 +5,7 @@ module emailClient2 {
     requires javafx.web;
     requires activation;
     requires javax.mail.api;
-
-
+    requires java.desktop;
 
     opens com.barosanu;
     opens com.barosanu.view;

@@ -19,6 +19,10 @@ import java.util.List;
 public class EmailManager {
 
 
+    public EmailMessage getSelectedMessage() {
+        return selectedMessage;
+    }
+
     private EmailMessage selectedMessage;
     private EmailTreeItem<String> selectedFolder;
     private ObservableList<EmailAccount> emailAccounts = FXCollections.observableArrayList();
