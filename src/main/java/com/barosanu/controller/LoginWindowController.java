@@ -83,8 +83,8 @@ public class LoginWindowController extends BaseController implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {// by nie wpisywać za każdym razem initialize jest wywoływana od razu gdy kontroler jest przetworzony.
-        emailAddressField.setText("javafxmail@interia.pl");
-        passwordField.setText("Wy4T3HxjLciXzm");
+//        emailAddressField.setText("javafxmail@interia.pl");
+//        passwordField.setText("haslo");
 
     }
 }
