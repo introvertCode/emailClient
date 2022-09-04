@@ -6,6 +6,7 @@ import com.barosanu.model.EmailAccount;
 import com.barosanu.view.ViewFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -39,6 +40,9 @@ public class ComposeMessageControler extends BaseController implements Initializ
     private TextField subjectTextField;
 
     @FXML
+    private Button sendButton;
+
+    @FXML
     void attachBtnAction() {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
@@ -58,8 +62,10 @@ public class ComposeMessageControler extends BaseController implements Initializ
             attachments
         );
         emailSenderService.start();
+        sendButton.setDisable(true);
         emailSenderService.setOnSucceeded(e->{
             EmailSendingResult emailSendingResult = emailSenderService.getValue(); //sprawdza wartość wątku
+            sendButton.setDisable(false);
             switch (emailSendingResult){
                 case SUCCESS:
                     Stage stage = (Stage) recipientTextField.getScene().getWindow();

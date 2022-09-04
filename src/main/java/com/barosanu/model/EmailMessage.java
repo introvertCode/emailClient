@@ -84,7 +84,7 @@ public class EmailMessage {
         hasAttachments = true;
         attachmentList.add(mbp);
         try {
-            System.out.println("Added attach: " + mbp.getFileName());
+//            System.out.println("Added attach: " + mbp.getFileName());
 
         } catch (Exception e){
             e.printStackTrace();

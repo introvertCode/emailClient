@@ -68,7 +68,7 @@ public class FetchFoldersService extends Service<Void> {
         folder.addMessageCountListener(new MessageCountListener() { //nie można użyć lambdy bo są 2 metody
             @Override
             public void messagesAdded(MessageCountEvent e) {
-                System.out.println("message added event!: " + e);
+//                System.out.println("message added event!: " + e);
                 for(int i =0; i < e.getMessages().length; i++){
                     try {
                         Message message = folder.getMessage(folder.getMessageCount());//-1 w oryginale bierze,,,,, ostatnią wiadomość z folderu czyli ta która właśnie przyszła
@@ -81,7 +81,7 @@ public class FetchFoldersService extends Service<Void> {
 
             @Override
             public void messagesRemoved(MessageCountEvent e) {
-                System.out.println("message removed event!: " + e);
+//                System.out.println("message removed event!: " + e);
 
             }
         });

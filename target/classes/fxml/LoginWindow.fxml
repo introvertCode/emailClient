@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="326.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">   <!--   fx:controller="com.barosanu.controller.LoginWindowController"-->
+<AnchorPane prefHeight="326.0" prefWidth="432.0" styleClass="container" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">   <!--   fx:controller="com.barosanu.controller.LoginWindowController"-->
 
    <children>
       <Button layoutX="161.0" layoutY="196.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="52.0" prefWidth="110.0" text="Login" />
