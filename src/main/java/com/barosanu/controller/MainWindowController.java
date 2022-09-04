@@ -92,7 +92,7 @@ public class MainWindowController extends BaseController implements Initializabl
     private void resizeWebView(){
 
         emailsTableView.heightProperty().addListener((obs, oldVal, newVal) -> {
-            emailWebView.setPrefHeight(anchorPane.getHeight() - (double)newVal - 25);
+            emailWebView.setPrefHeight(anchorPane.getHeight() - (double)newVal - 35);
 
         });
 
@@ -102,7 +102,7 @@ public class MainWindowController extends BaseController implements Initializabl
                 emailsTableView.setMinHeight((double)newVal/2);
             }
 
-            emailWebView.setPrefHeight((double)newVal - emailsTableView.getHeight() - 25);
+            emailWebView.setPrefHeight((double)newVal - emailsTableView.getHeight() - 35);
 
         });
 

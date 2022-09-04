@@ -28,7 +28,7 @@ public class ViewFactory {
     }
 
     //View options handling
-    private ColorTheme colorTheme = ColorTheme.DARK;
+    private ColorTheme colorTheme = ColorTheme.DEFAULT;
     private FontSize fontSize = FontSize.MEDIUM;
 
     public ColorTheme getColorTheme() {
@@ -99,6 +99,7 @@ public class ViewFactory {
         stage.setScene(scene);
         stage.show();
         activeStages.add(stage);
+        updateStyles();
     }
 
     public void closeStage(Stage stageToClose){
