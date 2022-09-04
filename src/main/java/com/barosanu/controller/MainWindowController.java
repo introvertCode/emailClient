@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
 
@@ -25,6 +26,9 @@ public class MainWindowController extends BaseController implements Initializabl
 
     @FXML
     private WebView emailWebView;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @FXML
     private TableView<EmailMessage> emailsTableView;
@@ -78,7 +82,33 @@ public class MainWindowController extends BaseController implements Initializabl
         setUpMessageRendererService();
         setUpMessageSelection();//metoda będzie uruchamiana, pokaże pierwszą wiadomość i też za każdym razem gdy będziemy klikać w wiadomość
         setUpContextMenus();
-            
+        emailsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        DragResizer.makeResizable(emailsTableView, anchorPane);
+        resizeWebView();
+
+    }
+
+    private void resizeWebView(){
+
+        emailsTableView.heightProperty().addListener((obs, oldVal, newVal) -> {
+//            emailWebView.setMaxHeight(anchorPane.getHeight() - (double)newVal - 25);
+            emailWebView.setPrefHeight(anchorPane.getHeight() - (double)newVal - 25);
+//            emailWebView.setMaxHeight(20);
+            System.out.println("hohohoho");
+//            emailWebView.
+        });
+
+        anchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
+//            emailWebView.setMaxHeight(anchorPane.getHeight() - (double)newVal - 25);
+            if(emailsTableView.getHeight() > (double)newVal - 100 && (double)newVal < (double)oldVal) {
+                emailsTableView.setMinHeight((double)newVal/2);
+            }
+
+            emailWebView.setPrefHeight((double)newVal - emailsTableView.getHeight() - 25);
+//            emailWebView.setMaxHeight(20);
+            System.out.println("ups");
+//            emailWebView.
+        });
 
     }
 

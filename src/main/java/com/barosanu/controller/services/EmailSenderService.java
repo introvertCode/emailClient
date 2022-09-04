@@ -75,6 +75,7 @@ public class EmailSenderService extends Service<EmailSendingResult> { // w  rezu
                         );
                     transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
                     transport.close();
+                    copyMessageIntoSentFolder(mimeMessage);
                     return EmailSendingResult.SUCCESS;
                 } catch (MessagingException e){
                     e.printStackTrace();
@@ -85,5 +86,24 @@ public class EmailSenderService extends Service<EmailSendingResult> { // w  rezu
                 }
             }
         };
+    }
+
+    private void copyMessageIntoSentFolder(MimeMessage mimeMessage) throws MessagingException{
+
+        Store store = emailAccount.getSession().getStore();
+        store.connect(
+            emailAccount.getProperties().getProperty("outgoingHost"),
+            emailAccount.getAddress(),
+            emailAccount.getPassword());
+
+        Folder folder = (Folder) store.getFolder("Wysłane");
+        if (!folder.exists()) {
+            folder.create(Folder.HOLDS_MESSAGES);
+        }
+        folder.open(Folder.READ_WRITE);
+
+        folder.appendMessages(new Message[]{mimeMessage});
+        folder.close();
+        store.close();
     }
 }

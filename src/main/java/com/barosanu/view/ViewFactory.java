@@ -50,13 +50,13 @@ public class ViewFactory {
     public void showLoginWindow() {
         BaseController controller = new LoginWindowController(emailManager, this, "/fxml/LoginWindow.fxml");
         initializeStage(controller);
-        System.out.println("show Login Window");
+//        System.out.println("show Login Window");
     }
 
     public void showMainWindow(){
         BaseController controller = new MainWindowController(emailManager, this, "/fxml/MainWindow.fxml");
         initializeStage(controller);
-        System.out.println("show Main Window");
+//        System.out.println("show Main Window");
 
         mainViewInitialized = true;
     }
@@ -64,7 +64,7 @@ public class ViewFactory {
     public void showOptionsWindow(){
         BaseController controller = new OptionsWindowController(emailManager, this, "/fxml/OptionsWindow.fxml");
         initializeStage(controller);
-        System.out.println("show Option Window");
+//        System.out.println("show Option Window");
 
     }
 
@@ -83,7 +83,7 @@ public class ViewFactory {
 
     private void initializeStage(BaseController baseController){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(baseController.getFxmlName()));
-        System.out.println(getClass().getResource(baseController.getFxmlName()));
+//        System.out.println(getClass().getResource(baseController.getFxmlName()));
         fxmlLoader.setController(baseController);
 
         Parent parent;
