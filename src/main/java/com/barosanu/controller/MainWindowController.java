@@ -1,5 +1,6 @@
 package com.barosanu.controller;
 import com.barosanu.EmailManager;
+import com.barosanu.controller.features.DragResizer;
 import com.barosanu.controller.services.MessageRendererService;
 import com.barosanu.model.EmailMessage;
 import com.barosanu.model.EmailTreeItem;
@@ -91,23 +92,18 @@ public class MainWindowController extends BaseController implements Initializabl
     private void resizeWebView(){
 
         emailsTableView.heightProperty().addListener((obs, oldVal, newVal) -> {
-//            emailWebView.setMaxHeight(anchorPane.getHeight() - (double)newVal - 25);
             emailWebView.setPrefHeight(anchorPane.getHeight() - (double)newVal - 25);
-//            emailWebView.setMaxHeight(20);
-            System.out.println("hohohoho");
-//            emailWebView.
+
         });
 
         anchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
-//            emailWebView.setMaxHeight(anchorPane.getHeight() - (double)newVal - 25);
+
             if(emailsTableView.getHeight() > (double)newVal - 100 && (double)newVal < (double)oldVal) {
                 emailsTableView.setMinHeight((double)newVal/2);
             }
 
             emailWebView.setPrefHeight((double)newVal - emailsTableView.getHeight() - 25);
-//            emailWebView.setMaxHeight(20);
-            System.out.println("ups");
-//            emailWebView.
+
         });
 
     }

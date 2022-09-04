@@ -11,4 +11,5 @@ module emailClient2 {
     opens com.barosanu.view;
     opens com.barosanu.controller;
     opens com.barosanu.model;
+    opens com.barosanu.controller.features;
 }

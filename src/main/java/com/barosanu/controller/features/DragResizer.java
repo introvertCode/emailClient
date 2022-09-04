@@ -1,11 +1,10 @@
-package com.barosanu.controller;
+package com.barosanu.controller.features;
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
-import javafx.scene.web.WebView;
 
 /**
  * {@link DragResizer} can be used to add mouse listeners to a {@link Region}
